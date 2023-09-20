@@ -3,30 +3,45 @@
 import axios from "axios";
 import dateFns from "date-fns";
 
-class Wrapper {
+class CalendarEntry {
+    elementID = 0;
+    elementType = 5;
+    wrapper = ;
+    constructor(elementID, elementType = 5) {
+        this.elementID = elementID;
+        this.elementType = elementType;
+    }
+    fetch() {
+        var result = this.wrapper.axios.get(`https://${this.wrapper.baseurl}/api/rest/view/v1/calendar-entry/detail?elementId=${this.elementID}&elementType=${this.elementType}&homeworkOption=DUE`);
+        
+    }
+}
+
+
+class UntisWrapper {
 
     // Variables
     school = "";
     schoolBase64 = "";
     username = "";
     password = "";
-    basurl = "";
-    coockies = "";
+    baseurl = "";
+    cookies = "";
     id = "";
     sessionInfo = "";
     anonymous = false;
     axios;
 
     // Constructor
-    constructor(school, username, password, basurl, identity = "Awesome", disableUserAgent = false) {
+    constructor(school, username, password, baseurl, identity = "Awesome", disableUserAgent = false) {
 
         // Set Variables
         this.school = school;
         this.schoolBase64 = "_" + btoa(this.school); // _ Symbol is needed for the API. btoa() is a function to encode the school name to base64.
         this.username = username;
         this.password = password;
-        this.basurl = "https://" + basurl + "/";
-        this.coockies = [];
+        this.baseurl = "https://" + baseurl + "/";
+        this.cookies = [];
         this.id = identity;
         this.sessionInfo = {};
         this.anonymous = false;
@@ -41,7 +56,7 @@ class Wrapper {
 
         // Create Axios Instance
         this.axios = axios.create({
-            baseURL: this.basurl,
+            baseURL: this.baseurl,
             maxRedirects: 0,
             headers: {
                 "Cache-Control": "no-cache",
@@ -108,7 +123,7 @@ class Wrapper {
         });
     }
 
-    // Building the coockies
+    // Building the cookies
     buildCookies() {
 
         const cookies = [];
