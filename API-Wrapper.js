@@ -3,22 +3,8 @@
 import axios from "axios";
 import dateFns from "date-fns";
 
-class CalendarEntry {
-    elementID = 0;
-    elementType = 5;
-    wrapper = ;
-    constructor(elementID, elementType = 5) {
-        this.elementID = elementID;
-        this.elementType = elementType;
-    }
-    fetch() {
-        var result = this.wrapper.axios.get(`https://${this.wrapper.baseurl}/api/rest/view/v1/calendar-entry/detail?elementId=${this.elementID}&elementType=${this.elementType}&homeworkOption=DUE`);
-        
-    }
-}
 
-
-class UntisWrapper {
+export class UntisWrapper {
 
     // Variables
     school = "";
@@ -53,7 +39,7 @@ class UntisWrapper {
             // Set default User-Agent
             additionalHeaders["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) WebUntisAPIWrapper/1.0.0 Chrome/73.0.3683.103 Safari/537.36";
         }
-
+        console.log(`Logging in to ${this.baseurl} - School: ${this.school} (${this.schoolBase64}) - User: ${this.username}`)
         // Create Axios Instance
         this.axios = axios.create({
             baseURL: this.baseurl,
@@ -69,6 +55,10 @@ class UntisWrapper {
             }
         });
         
+    }
+
+    getInstance() {
+        return this;
     }
 
     // Login
@@ -127,8 +117,8 @@ class UntisWrapper {
     buildCookies() {
 
         const cookies = [];
-        cookies.push(serialize("JSESSIONID" + this.sessionInfo.sessionId));
-        cookies.push(serialize("schoolname" + this.schoolBase64));
+        cookies.push(serialize("JSESSIONID=" + this.sessionInfo.sessionId));
+        cookies.push(serialize("schoolname=" + this.schoolBase64));
         return cookies.join("; ");
     }
 
